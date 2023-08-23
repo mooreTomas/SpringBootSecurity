@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>All Products</title>
+</head>
+<body>
+
+<div sec:authorize="isAuthenticated()">
+  <span th:text="${#authentication.principal.username}"></span>
+  <a href="/logout">Logout</a>
+</div>
+
+<br>
+<table style="width:100%">
+  <tr>
+    <th align="left">Code</th>
+    <th align="left">Name</th>
+    <th align="left">Description</th>
+    <th align="left">Buy Price</th>
+    <th align="left">Sell Price</th>
+    <th align="left">Qty</th>
+    <th align="left">Actions</th>
+  </tr>
+  <tr th:each="product: ${productList}">
+    <td><span th:text="${product.code}"></span></td>
+    <td><span th:text="${product.name}"></span></td>
+    <td><span th:text="${product.description}"></span></td>
+    <td><span th:text="${product.buyPrice}"></span></td>
+    <td><span th:text="${product.sellPrice}"></span></td>
+    <td><span th:text="${product.quantityInStock}"></span></td>
+    <td> <form th:action="@{/deleteProduct}" method="post">
+      <input type="hidden" th:value="${product.code}" name="code"/>
+      <button type = "Submit" sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')">Delete</button>
+    </form></td>
+    <td>
+
+    </td>
+  </tr>
+</table>
+</body>
+</html>
